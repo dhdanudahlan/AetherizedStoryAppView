@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.HomeViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.FeedsViewModel
+import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.details.DetailsViewModel
+import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.details.AddStoryViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.main.MainViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.login.LoginViewModel
@@ -30,6 +32,12 @@ class ViewModelFactory(private val pref: CustomPreference) : ViewModelProvider.F
             }
             modelClass.isAssignableFrom(SettingsViewModel::class.java) -> {
                 SettingsViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(DetailsViewModel::class.java) -> {
+                DetailsViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> {
+                AddStoryViewModel(pref) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

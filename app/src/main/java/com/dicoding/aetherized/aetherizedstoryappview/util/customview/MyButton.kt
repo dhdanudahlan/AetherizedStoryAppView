@@ -32,7 +32,7 @@ class MyButton: AppCompatButton {
         setTextColor(txtColor)
         textSize = 12f
         gravity = Gravity.CENTER
-        text = if(isEnabled) "SUBMIT" else "SUBMIT"
+//        text = if(isEnabled) "SUBMIT" else "SUBMIT"
     }
 
     private fun init() {

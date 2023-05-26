@@ -1,15 +1,20 @@
 package com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-//import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import com.dicoding.aetherized.aetherizedstoryappview.R
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
@@ -18,8 +23,13 @@ import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFacto
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.FeedsFragment
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.profile.ProfileFragment
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.StoryFragment
+import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.camera.CameraActivity
+import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.details.AddStoryActivity
+import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
+import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.main.MainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.io.File
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class HomeActivity : AppCompatActivity() {
@@ -57,12 +67,6 @@ class HomeActivity : AppCompatActivity() {
 
     private fun observeSettings() {
 
-//        settingsViewModel.loginResultLiveData.observe(this) { loginResult ->
-//            if (loginResult != null) {
-//                val token = loginResult.token
-//            }
-//        }
-
         settingsViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -80,18 +84,6 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
 
     }
-//    private fun setupViewModel() {
-//        viewModel = ViewModelProvider(
-//            this,
-//            ViewModelFactory(CustomPreference.getInstance(dataStore))
-//        )[HomeViewModel::class.java]
-//
-//        settingsViewModel = ViewModelProvider(
-//            this,
-//            ViewModelFactory(CustomPreference.getInstance(dataStore))
-//        )[SettingsViewModel::class.java]
-//
-//    }
 
     private fun bottomNav(homepage: String) {
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -104,9 +96,11 @@ class HomeActivity : AppCompatActivity() {
                 bottomNavigation.selectedItemId = R.id.feeds
             }
             "Add" -> {
+
                 val fragment = StoryFragment()
                 replaceFragment(fragment)
                 replaceToobar(toolbarTitle2)
+
                 bottomNavigation.selectedItemId = R.id.addstory
             }
             "Profile" -> {
@@ -154,4 +148,23 @@ class HomeActivity : AppCompatActivity() {
         toolBar.title= title
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        MenuInflater(this).inflate(R.menu.settings_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.action_settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.action_logout -> {
+                settingsViewModel.logout()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

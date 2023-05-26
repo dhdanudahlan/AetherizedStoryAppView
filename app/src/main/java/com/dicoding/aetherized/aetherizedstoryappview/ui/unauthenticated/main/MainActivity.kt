@@ -5,12 +5,16 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.dicoding.aetherized.aetherizedstoryappview.R
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityMainBinding
+import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.HomeActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.HomeViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.login.LoginActivity
@@ -30,9 +34,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        settingsViewModel.loginResultLiveData.observe(this) { loginResult ->
+
+            Log.d("MainActivityLoggedCheck", "$loginResult | ${loginResult?.token}")
+            if (loginResult != null) {
+                if (loginResult.token != null) {
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
+                }
+            }
+        }
+        
         setupView()
         setupAction()
         playAnimation()
+
     }
 
     private fun setupView() {
@@ -59,11 +75,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playAnimation() {
-        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
+        val translationAnimator = ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -60f, 60f).apply {
             duration = 6000
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
-        }.start()
+        }
+
+        val rotateClockwise = ObjectAnimator.ofFloat(binding.imageView, View.ROTATION, 0f, 40f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }
+
+        val rotateCounterClockwise = ObjectAnimator.ofFloat(binding.imageView, View.ROTATION, 0f, -40f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }
+
+        AnimatorSet().apply {
+            playTogether(translationAnimator, rotateCounterClockwise, rotateClockwise)
+            start()
+        }
+
 
         val login = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(500)
         val signup = ObjectAnimator.ofFloat(binding.signupButton, View.ALPHA, 1f).setDuration(500)

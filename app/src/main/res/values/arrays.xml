@@ -1,12 +1,12 @@
 
 <resources>
     <string-array name="pref_home_page_entries">
-        <item>Favorites</item>
-        <item>Browse</item>
+        <item>Feeds</item>
+        <item>Profile</item>
     </string-array>
 
     <string-array name="pref_home_page_entries_values">
-        <item>Favorites</item>
-        <item>Browse</item>
+        <item>Feeds</item>
+        <item>Profile</item>
     </string-array>
 </resources>

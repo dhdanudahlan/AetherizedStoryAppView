@@ -27,6 +27,7 @@ class LoginViewModel(private val pref: CustomPreference): ViewModel() {
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
+
     fun login(email: String, password: String, onResult: (UserResponse<LoginResult>) -> Unit) {
         viewModelScope.launch {
             try {
@@ -35,15 +36,36 @@ class LoginViewModel(private val pref: CustomPreference): ViewModel() {
                     "password" to password
                 )
 
-                _response.value = apiService.login(requestBody)
-                response.value?.let {
-                    _loginResult.value = it.data
+                val responseTemp = apiService.login(requestBody)
+                _response.postValue(responseTemp)
+                responseTemp.let {
+                    _loginResult.postValue(it.data)
+                    _errorMessage.postValue(it.message)
+                    Log.d("LoginViewModel", it.message)
                     if (it.data != null) { saveLogin(it.data) }
                     onResult(it)
                 }
             } catch (exception: Exception) {
-                Log.d("LoginActivity", "==========FAILED==========")
+                Log.d("LoginViewModelExc", "==========FAILED========== ${exception}")
                 response.value?.let { onResult(it) }
+                _errorMessage.postValue("An error occurred: ${exception.message}")
+            }
+        }
+    }
+    fun loginGuest(onResult: (LoginResult)  -> Unit) {
+        viewModelScope.launch {
+            try {
+                val guestLoginResult = LoginResult("GUEST", "GUEST", "GUEST")
+                _loginResult.postValue(guestLoginResult)
+                _errorMessage.postValue("lOGGED IN AS GUEST")
+                Log.d("LoginViewModel", "lOGGED IN AS GUEST")
+                saveLogin(guestLoginResult)
+                onResult(guestLoginResult)
+            } catch (exception: Exception) {
+                val guestLoginResult = LoginResult("GUEST", "GUEST", "GUEST")
+                Log.d("LoginViewModelExc", "==========FAILED========== ${exception}")
+                onResult(guestLoginResult)
+                _errorMessage.postValue("An error occurred: ${exception.message}")
             }
         }
     }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="8dp"
     app:cardElevation="2dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true">
-
-
+    app:cardUseCompatPadding="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_centerVertical="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
         <ImageView
             android:id="@+id/iv_item_story"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:layout_weight="1"
             android:contentDescription="@string/avatar_story"
             android:scaleType="centerCrop"
@@ -76,17 +76,14 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:text="@string/avatar_username"/>
+                    android:text="@string/story_time"/>
                 <TextView
                     android:id="@+id/tv_item_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:textStyle="bold"
                     android:text="@string/story_description"/>
             </LinearLayout>
         </LinearLayout>
-
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>

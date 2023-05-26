@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.dicoding.aetherized.aetherizedstoryappview.R
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.Constants
 import com.dicoding.aetherized.aetherizedstoryappview.data.model.Story
-import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.StoryFragment
+import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.details.DetailsFragment
 
 class StoryAdapter (private var storyList: ArrayList<Story>) :
     RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
@@ -45,7 +45,7 @@ class StoryAdapter (private var storyList: ArrayList<Story>) :
         private val storyImage: ImageView = itemView.findViewById(R.id.iv_item_story)
         private val userImage: ImageView = itemView.findViewById(R.id.iv_item_avatar)
         private val name: TextView = itemView.findViewById(R.id.tv_item_name)
-        private val name_top: TextView = itemView.findViewById(R.id.tv_item_name_top)
+        private val nameTop: TextView = itemView.findViewById(R.id.tv_item_name_top)
         private val storyDesc: TextView = itemView.findViewById(R.id.tv_item_desc)
 
         fun bind(story: Story) {
@@ -53,19 +53,19 @@ class StoryAdapter (private var storyList: ArrayList<Story>) :
             Glide.with(itemView).load(story.photoUrl).into(storyImage)
             Log.d("StoryAdapter", story.photoUrl)
             name.text = story.name
-            name_top.text = story.name
+            nameTop.text = story.name
             storyDesc.text = story.createdAt
             itemView.setOnClickListener {
                 val bundle = Bundle().apply {
                     putParcelable(Constants.PARCELABLE_KEY, story)
                 }
 
-                val storyFragment = StoryFragment().apply {
+                val detailsFragment = DetailsFragment().apply {
                     arguments = bundle
                 }
 
                 val transaction = (itemView.context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.fragment_container, storyFragment)
+                transaction.replace(R.id.fragment_container, detailsFragment)
                 transaction.addToBackStack(null)
                 transaction.commit()
             }

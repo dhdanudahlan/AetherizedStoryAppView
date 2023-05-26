@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.authenticated.home.feeds.FeedsFragment">
-    <TextView
-        android:id="@+id/tv_bro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="BROOOO"
-        android:gravity="center"
-        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvStory"
         android:layout_width="match_parent"
@@ -27,7 +17,7 @@
         android:scrollbarSize="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_bro" />
+        app:layout_constraintTop_toTopOf="parent" />
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"

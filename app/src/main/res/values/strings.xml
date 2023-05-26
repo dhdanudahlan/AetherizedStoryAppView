@@ -2,9 +2,11 @@
     <string name="app_name">AetherizedStoryMobileApp</string>
     <string name="signup">Sign Up</string>
     <string name="login">Sign In</string>
+    <string name="logout">Logout</string>
+    <string name="login_guest">Sign In as Guest</string>
     <string name="message_welcome_page">Share your story, share your life!</string>
     <string name="title_welcome_page">AetherizedStory</string>
-    <string name="title_signup_page">Lengkapi data dirimu di bawah ini ya</string>
+    <string name="title_signup_page">Fill the Registration Data</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="message_login_page">Masukkan dulu datamu ya</string>
@@ -13,7 +15,6 @@
     <string name="copyright">Aetherized Apps by Dimas</string>
     <string name="message_main_page">Selamat Belajar di Dicoding.</string>
     <string name="greeting">Halo %1$s,</string>
-    <string name="logout">Keluar</string>
 
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
@@ -28,6 +29,8 @@
     <string name="avatar_username">Username</string>
     <string name="avatar_story">Story</string>
     <string name="story_description">Story Description</string>
+    <string name="story_time">Story Time</string>
+
     <string name="botNavTitle1">Feeds</string>
     <string name="botNavTitle2">Add Story</string>
     <string name="botNavTitle3">Profile</string>

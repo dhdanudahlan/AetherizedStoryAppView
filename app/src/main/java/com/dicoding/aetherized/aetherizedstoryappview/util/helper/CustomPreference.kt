@@ -40,6 +40,12 @@ class CustomPreference(private val context: Context) {
         }
     }
 
+    suspend fun logout() {
+        context.dataStore.edit { preferences ->
+            preferences[loginResultKey] = ""
+        }
+    }
+
     fun getThemeSetting(): Flow<Boolean> {
         return context.dataStore.data.map { preferences ->
             preferences[themeKey] ?: false

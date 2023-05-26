@@ -21,6 +21,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityCameraBinding
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.details.AddStoryActivity
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.createFile
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -35,7 +36,9 @@ class CameraActivity : AppCompatActivity() {
     private var flashEnabled = false
 
     companion object {
+
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
     private val requestPermissionLauncher =
@@ -92,9 +95,11 @@ class CameraActivity : AppCompatActivity() {
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
 
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val photoFile = createFile(application)
 
-        val photoFile = File(outputDirectory, "IMG_${timeStamp}.jpg")
+//        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+//
+//        val photoFile = File(outputDirectory, "IMG_${timeStamp}.jpg")
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
         imageCapture.takePicture(
@@ -103,10 +108,9 @@ class CameraActivity : AppCompatActivity() {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val intent = Intent().apply {
-                        putExtra("capturedImageFile", photoFile.absolutePath)
+                        putExtra("capturedImageFile", photoFile)
                     }
-
-                    setResult(AddStoryActivity.CAMERA_X_RESULT, intent)
+                    setResult(AddStoryActivity.CAMERA_REQUEST_CODE, intent)
                     finish()
                 }
                 override fun onError(exc: ImageCaptureException) {
@@ -188,8 +192,12 @@ class CameraActivity : AppCompatActivity() {
             result.data?.data?.let { uri ->
                 val intent = Intent().apply {
                     putExtra("data", uri)
+                    putExtra(
+                        "isBackCamera",
+                        cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
+                    )
                 }
-                setResult(AddStoryActivity.CAMERA_X_RESULT, intent)
+                setResult(AddStoryActivity.CAMERA_REQUEST_CODE, intent)
                 finish()
             }
         }

@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import androidx.activity.viewModels
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.aetherized.aetherizedstoryappview.R
 import com.dicoding.aetherized.aetherizedstoryappview.data.model.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
-import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.main.MainViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
 
@@ -46,13 +44,15 @@ class FeedsFragment : Fragment() {
         observeViewModel()
         initializeValue()
 
+
+
         recyclerView.adapter = storyAdapter
 
         return view
     }
 
     private fun initializeValue() {
-        loginResult = LoginResult("GUESTFF","GUESTFF","GUESTFF")
+        loginResult = LoginResult("GUEST","GUEST","GUEST")
 
         storyAdapter = StoryAdapter(ArrayList())
 
@@ -64,7 +64,7 @@ class FeedsFragment : Fragment() {
 
     private fun observeSettings() {
         settingsViewModel.loginResultLiveData.observe(viewLifecycleOwner) { newLoginResult ->
-            loginResult = newLoginResult ?: LoginResult("GUESTFF","GUESTFF","GUESTFF")
+            loginResult = newLoginResult ?: LoginResult("GUEST","GUEST","GUEST")
             viewModel.getAllStories(loginResult)
         }
     }
@@ -82,16 +82,5 @@ class FeedsFragment : Fragment() {
     private fun showLoading(isLoading: Boolean) {
         progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
-
-//    private fun setupViewModel() {
-//        viewModel = ViewModelProvider(
-//            this,
-//            ViewModelFactory(UserPreference.getInstance(requireContext().dataStore))
-//        )[FeedsViewModel::class.java]
-//        settingsViewModel = ViewModelProvider(
-//            this,
-//            ViewModelFactory(UserPreference.getInstance(requireContext().dataStore))
-//        )[SettingsViewModel::class.java]
-//    }
 
 }

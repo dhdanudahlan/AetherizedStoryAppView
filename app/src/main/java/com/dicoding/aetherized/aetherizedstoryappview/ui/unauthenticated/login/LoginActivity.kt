@@ -1,5 +1,7 @@
 package com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.login
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -8,6 +10,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -22,8 +25,6 @@ import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
 import java.util.regex.Pattern
-
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -44,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
         setupAction()
         observeSettings()
         observeViewModel()
-
+        playAnimation()
     }
 
     private fun setupView() {
@@ -71,9 +72,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-
         viewModel.loginResult.observe(this) {
             Log.d("LoginActivity", "loginResult: $it")
+        }
+        viewModel.errorMessage.observe(this) {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -95,7 +98,14 @@ class LoginActivity : AppCompatActivity() {
 
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                passForm = !s.isNullOrEmpty()
+                passForm = isValidPassword(s.toString())
+                if (passForm) {
+                    Log.d("PasswordLoginActivity", "passForm: ${passForm}, count: $count Text: ${s.toString()}")
+                    binding.passwordEditText.error = null
+                } else {
+                    Log.d("PasswordLoginActivity", "passForm: ${passForm}, count: $count Text: ${s.toString()}")
+                    binding.passwordEditText.error =  "Requires minimum 8 characters"
+                }
                 setMyButtonEnable()
             }
             override fun afterTextChanged(s: Editable) {
@@ -128,6 +138,14 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.loginGuestButton.setOnClickListener {
+            viewModel.loginGuest {
+                Toast.makeText(this, "LOGGED IN AS GUEST", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+                finishAffinity()
+            }
+        }
     }
 
     private fun setMyButtonEnable() {
@@ -135,12 +153,48 @@ class LoginActivity : AppCompatActivity() {
         binding.loginButton.isEnabled = formFilled
     }
     private fun isValidPassword(password: String): Boolean {
-        return (password.length < 8)
+        return (password.length > 7)
     }
     private fun isValidEmail(email: String): Boolean {
         val emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z]{2,6}$"
         val pattern = Pattern.compile(emailPattern, Pattern.CASE_INSENSITIVE)
         val matcher = pattern.matcher(email)
         return matcher.matches()
+    }
+    private fun playAnimation() {
+        val translationAnimator = ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -60f, 60f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }
+
+        val rotateClockwise = ObjectAnimator.ofFloat(binding.imageView, View.ROTATION, 0f, 40f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }
+
+        val rotateCounterClockwise = ObjectAnimator.ofFloat(binding.imageView, View.ROTATION, 0f, -40f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }
+
+        AnimatorSet().apply {
+            playTogether(translationAnimator, rotateCounterClockwise, rotateClockwise)
+            start()
+        }
+
+
+        val login = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(500)
+        val loginGuest = ObjectAnimator.ofFloat(binding.loginGuestButton, View.ALPHA, 1f).setDuration(500)
+        val email = ObjectAnimator.ofFloat(binding.emailEditTextLayout, View.ALPHA, 1f).setDuration(500)
+        val pass = ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(500)
+
+
+        AnimatorSet().apply {
+            playSequentially(email, pass, login, loginGuest)
+            start()
+        }
     }
 }

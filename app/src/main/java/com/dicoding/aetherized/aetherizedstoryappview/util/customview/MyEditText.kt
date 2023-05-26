@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
@@ -73,12 +74,19 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         if (compoundDrawables[2] != null) {
+            val clearButtonStart: Float
             val clearButtonEnd: Float
             var isClearButtonClicked = false
+            Log.d("MyEditText", "onTouch")
             if (layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                 clearButtonEnd = (clearButtonImage.intrinsicWidth + paddingStart).toFloat()
                 when {
                     event!!.x < clearButtonEnd -> isClearButtonClicked = true
+                }
+            } else {
+                clearButtonStart = (width - paddingEnd - clearButtonImage.intrinsicWidth).toFloat()
+                when {
+                    event!!.x > clearButtonStart -> isClearButtonClicked = true
                 }
             }
             if (isClearButtonClicked) {
@@ -86,14 +94,18 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
                     MotionEvent.ACTION_DOWN -> {
                         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close) as Drawable
                         showClearButton()
+                        Log.d("MyEditText", "ACTION_DOWN")
                         return true
                     }
                     MotionEvent.ACTION_UP -> {
                         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close) as Drawable
+                        Log.d("MyEditText", "ACTION_UP BEFORE: $text")
                         when {
                             text != null -> text?.clear()
                         }
                         hideClearButton()
+
+                        Log.d("MyEditText", "ACTION_UP AFTER: $text")
                         return true
                     }
                     else -> return false

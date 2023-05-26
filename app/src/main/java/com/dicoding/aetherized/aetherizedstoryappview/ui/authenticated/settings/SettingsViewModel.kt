@@ -3,6 +3,7 @@ package com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings
 import androidx.lifecycle.*
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
 import com.dicoding.aetherized.aetherizedstoryappview.data.model.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.Story
 import kotlinx.coroutines.launch
 
 //private val Context.dataStore by preferencesDataStore(name = "settings")
@@ -38,9 +39,9 @@ class SettingsViewModel (private val pref: CustomPreference) : ViewModel() {
         }
     }
 
-//    fun logout() {
-//        viewModelScope.launch {
-//            pref.logout()
-//        }
-//    }
+    fun logout() {
+        viewModelScope.launch {
+            pref.logout()
+        }
+    }
 }
