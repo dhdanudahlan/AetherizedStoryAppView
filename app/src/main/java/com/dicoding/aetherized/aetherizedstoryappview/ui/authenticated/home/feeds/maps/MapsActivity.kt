@@ -53,8 +53,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         if (storyList.isNotEmpty()) {
             Log.d("MapsActivityMarker", "storyList is NOT Empty")
             for (i in storyList) {
-                if ((i.lat).isNullOrEmpty() || (i.lon).isNullOrEmpty()){
-                } else {
+                if (!((i.lat).isNullOrEmpty() || (i.lon).isNullOrEmpty())){
                     Log.d("MapsActivityMarker", "Created: lat:${i.lat} lon:${i.lat}")
                     val storyMarker = LatLng(i.lat.toDouble(), i.lon.toDouble())
                     mMap.addMarker(MarkerOptions().position(storyMarker).title(i.name))

@@ -18,7 +18,6 @@ import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreferen
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
 
-//private val Context.dataStore by preferencesDataStore(name = "user_datastore")
 class PrefsFragment : PreferenceFragmentCompat() {
 
     private lateinit var switchTheme: SwitchPreferenceCompat
@@ -70,7 +69,7 @@ class PrefsFragment : PreferenceFragmentCompat() {
         return view
     }
 
-    fun showToast(message: String) {
+    private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }

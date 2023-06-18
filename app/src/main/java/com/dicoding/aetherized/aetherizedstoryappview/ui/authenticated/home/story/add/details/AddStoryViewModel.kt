@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
-import com.dicoding.aetherized.aetherizedstoryappview.data.response.GeneralResponse
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.response.GeneralResponse
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
-import com.dicoding.aetherized.aetherizedstoryappview.util.network.ApiConfig
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.ApiConfig
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody

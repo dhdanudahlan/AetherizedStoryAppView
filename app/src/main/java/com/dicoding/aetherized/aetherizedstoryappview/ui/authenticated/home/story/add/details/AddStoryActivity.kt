@@ -47,8 +47,8 @@ class AddStoryActivity : AppCompatActivity() {
     private val settingsViewModel by viewModels<SettingsViewModel> { viewModelFactory }
     private lateinit var loginResult: LoginResult
 
-    var latitude: Double = 0.0
-    var longitude: Double = 0.0
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
 
     private var imageFile: File? = null
     private var isGallery: Boolean? = false

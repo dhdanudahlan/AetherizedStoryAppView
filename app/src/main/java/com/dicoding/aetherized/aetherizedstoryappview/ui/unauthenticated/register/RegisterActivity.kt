@@ -20,7 +20,6 @@ import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreferen
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
 
-//private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding

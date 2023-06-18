@@ -14,42 +14,6 @@ import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-//class CustomPreference(private val context: Context) {
-//    private val gson = Gson()
-//
-//    private val loginResultKey = stringPreferencesKey(Constants.PREF_LOGIN)
-//    private val themeKey = booleanPreferencesKey(Constants.PREFS_KEY_THEME)
-//    private val homePageKey = stringPreferencesKey(Constants.PREFS_KEY_HOMEPAGE)
-//
-//    private val _prefDarkMode = MutableLiveData<Boolean>()
-//    val prefDarkMode: LiveData<Boolean> get() = _prefDarkMode
-//
-//    fun getThemeSetting(): Flow<Boolean> {
-//        return context.dataStore.data.map { preferences ->
-//            preferences[themeKey] ?: false
-//        }
-//    }
-//
-//    suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
-//        context.dataStore.edit { preferences ->
-//            preferences[themeKey] = isDarkModeActive
-//        }
-//    }
-//
-//    fun getHomePageSetting(): Flow<String> {
-//        return context.dataStore.data.map { preferences ->
-//            preferences[homePageKey] ?: "Feeds"
-//        }
-//    }
-//
-//    suspend fun saveHomePageSetting(homepage: String) {
-//        context.dataStore.edit { preferences ->
-//            preferences[homePageKey] = homepage
-//        }
-//    }
-//
-//}
-
 class CustomPreference(private val dataStore: DataStore<Preferences>) {
     private object PreferencesKeys {
         val userId = stringPreferencesKey("user_id")

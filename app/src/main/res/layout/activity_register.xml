@@ -18,7 +18,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/brush"
         android:alpha="0.75"
-        app:tint="@color/grey" />
+        app:tint="@color/grey"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/nameTextView"

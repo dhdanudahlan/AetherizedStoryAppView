@@ -1,4 +1,4 @@
-package com.dicoding.aetherized.aetherizedstoryappview.data.response
+package com.dicoding.aetherized.aetherizedstoryappview.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 

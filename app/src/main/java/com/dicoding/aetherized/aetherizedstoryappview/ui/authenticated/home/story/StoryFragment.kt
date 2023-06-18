@@ -38,7 +38,6 @@ class StoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_story, container, false)
         if (capturedImageFile == null) {
             val intent = Intent(requireContext(), AddStoryActivity::class.java)
@@ -49,10 +48,6 @@ class StoryFragment : Fragment() {
     }
 
     private fun bindUser(){
-        view.findViewById<TextView>(R.id.tv_item_name).text = "story.name"
-        view.findViewById<TextView>(R.id.tv_item_name_top).text  = "story.name"
-        view.findViewById<TextView>(R.id.tv_item_time).text = "story.createdAt"
-        view.findViewById<TextView>(R.id.tv_item_desc).text = "story.description"
         Glide.with(this).load(R.drawable.ic_baseline_person_24).into(view.findViewById(R.id.iv_item_avatar))
         Glide.with(this).load(R.drawable.outline_camera_24).into(view.findViewById(R.id.iv_item_story))
     }

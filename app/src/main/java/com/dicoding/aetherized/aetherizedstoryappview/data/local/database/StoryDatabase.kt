@@ -4,15 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.data.local.dao.RemoteKeysDao
+import com.dicoding.aetherized.aetherizedstoryappview.data.local.dao.StoryDao
+import com.dicoding.aetherized.aetherizedstoryappview.data.local.entity.StoryEntity
 
 @Database(
-    entities = [Story::class],
-    version = 1,
+    entities = [StoryEntity::class, RemoteKeys::class],
+    version = 2,
     exportSchema = false
 )
 abstract class StoryDatabase : RoomDatabase() {
-
+    abstract val storyDao: StoryDao
+    abstract val remoteKeysDao: RemoteKeysDao
     companion object {
         @Volatile
         private var INSTANCE: StoryDatabase? = null
@@ -23,7 +26,7 @@ abstract class StoryDatabase : RoomDatabase() {
                 INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,
                     StoryDatabase::class.java,
-                    "story_database"
+                    "story_database_v.1.0"
                 )
                     .fallbackToDestructiveMigration()
                     .build()

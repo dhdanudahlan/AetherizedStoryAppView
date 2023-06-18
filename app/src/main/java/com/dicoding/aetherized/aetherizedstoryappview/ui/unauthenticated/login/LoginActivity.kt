@@ -26,9 +26,6 @@ import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFacto
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
-
-//    private val pref = CustomPreference(this)
-
     private val preferenceDataStore by lazy { (application as MyApplication).customPreference }
 
     private val viewModelFactory by lazy { ViewModelFactory(preferenceDataStore) }

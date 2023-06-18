@@ -1,49 +1,57 @@
 package com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.dicoding.aetherized.aetherizedstoryappview.MainCoroutineRule
 import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
 import com.dicoding.aetherized.aetherizedstoryappview.data.repository.StoryRepository
-import com.dicoding.aetherized.aetherizedstoryappview.utils.DataDummy
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.MockitoAnnotations
 
-@RunWith(MockitoJUnitRunner::class)
+@Suppress("DEPRECATION")
+@ExperimentalCoroutinesApi
 class FeedsPagingViewModelTest{
-
     @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-//    @Mock
+    @Mock
     private lateinit var storyRepository: StoryRepository
-    private lateinit var storyPagingViewModel: FeedsPagingViewModel
-    private val dummyStoryList = DataDummy.generateStoryNewsEntity(10)
 
+    @Mock
+    private lateinit var observer: Observer<PagingData<Story>>
+
+    private lateinit var viewModel: FeedsPagingViewModel
 
     @Before
     fun setUp() {
-        storyRepository = Mockito.mock(StoryRepository::class.java)
-        storyPagingViewModel = FeedsPagingViewModel(storyRepository)
+        MockitoAnnotations.initMocks(this)
+        viewModel = FeedsPagingViewModel(storyRepository)
     }
 
     @Test
-    fun `when getAllStories Should Not Be Null and Return Success`()  = mainCoroutineRule.runBlockingTest {
-        val expectedStories = MutableLiveData<PagingData<Story>>().cachedIn(storyPagingViewModel.viewModelScope)
-        `when`(storyRepository.getAllStories(true)).thenReturn(expectedStories)
-        val actualStories = storyPagingViewModel.getStories(true)
+    fun `getStories returns non-null data`() = runBlockingTest {
+        val fakeData = PagingData.from(listOf(Story("story-1", "Test Story", "This is a test story", "https://example.com/images/1.png", "2023-06-18", "0", "0")))
+        Mockito.`when`(storyRepository.getAllStories(true)).thenReturn(flowOf(fakeData).asLiveData())
 
-        `when`(storyPagingViewModel.getStories(true)).thenReturn(actualStories)
-        Assert.assertNotNull(actualStories)
+        viewModel.getStories(true).observeForever(observer)
+        Mockito.verify(observer).onChanged(fakeData)
     }
+
+    @Test
+    fun `getStories returns null data`() = runBlockingTest {
+        val fakeData = PagingData.empty<Story>()
+        Mockito.`when`(storyRepository.getAllStories(true)).thenReturn(flowOf(fakeData).asLiveData())
+
+        viewModel.getStories(true).observeForever(observer)
+        Mockito.verify(observer).onChanged(fakeData)
+    }
+
 }

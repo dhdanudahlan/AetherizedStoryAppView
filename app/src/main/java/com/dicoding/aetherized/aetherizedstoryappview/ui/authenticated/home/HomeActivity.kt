@@ -21,6 +21,7 @@ import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.prof
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.StoryFragment
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
+import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.main.MainActivity
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
@@ -156,7 +157,7 @@ class HomeActivity : AppCompatActivity() {
             }
             R.id.action_logout -> {
                 settingsViewModel.logout()
-                val intent = Intent(this, MapsActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
         }

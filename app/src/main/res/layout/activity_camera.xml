@@ -8,7 +8,6 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cameraContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintVertical_weight="1"
@@ -43,8 +42,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_close"
-            android:tint="@color/cardview_light_background"
-            />
+            tools:ignore="ContentDescription"
+            app:tint="@color/cardview_light_background" />
         <ImageView
             android:id="@+id/captureImage"
             android:layout_width="60dp"
@@ -53,7 +52,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_capture" />
+            app:srcCompat="@drawable/ic_capture"
+            tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,8 +77,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:srcCompat="@drawable/outline_photo_library_24"
-            android:tint="@color/cardview_light_background"
-            />
+            tools:ignore="ContentDescription"
+            app:tint="@color/cardview_light_background" />
 
         <ImageView
             android:id="@+id/switchCamera"
@@ -88,8 +88,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:srcCompat="@drawable/ic_switch_camera"
-            android:tint="@color/cardview_light_background"
-            />
+            tools:ignore="ContentDescription"
+            app:tint="@color/cardview_light_background" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
 import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.User
-import com.dicoding.aetherized.aetherizedstoryappview.data.response.UserResponse
-import com.dicoding.aetherized.aetherizedstoryappview.util.network.ApiConfig
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.response.UserResponse
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.ApiConfig
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val preferenceDataStore: CustomPreference): ViewModel() {
@@ -48,7 +48,7 @@ class LoginViewModel(private val preferenceDataStore: CustomPreference): ViewMod
                     }
                 }
             } catch (exception: Exception) {
-                Log.d("LoginViewModelExc", "==========FAILED========== ${exception}")
+                Log.d("LoginViewModelExc", "==========FAILED========== $exception")
                 response.value?.let { onResult(it) }
                 _errorMessage.postValue("An error occurred: ${exception.message}")
             }
@@ -65,7 +65,7 @@ class LoginViewModel(private val preferenceDataStore: CustomPreference): ViewMod
                 onResult(guestLoginResult)
             } catch (exception: Exception) {
                 val guestLoginResult = LoginResult("GUEST", "GUEST", "GUEST")
-                Log.d("LoginViewModelExc", "==========FAILED========== ${exception}")
+                Log.d("LoginViewModelExc", "==========FAILED========== $exception")
                 onResult(guestLoginResult)
                 _errorMessage.postValue("An error occurred: ${exception.message}")
             }

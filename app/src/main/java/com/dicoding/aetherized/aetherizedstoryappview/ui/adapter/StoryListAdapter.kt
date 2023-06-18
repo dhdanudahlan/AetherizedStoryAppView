@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.aetherized.aetherizedstoryappview.R
 import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.databinding.LinearLayoutListItemBinding
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.details.DetailsFragment
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.Constants
-import com.dicoding.aetherized.aetherizedstoryappview.databinding.LinearLayoutListItemBinding
 
 class StoryListAdapter :
     PagingDataAdapter<Story, StoryListAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -30,7 +30,7 @@ class StoryListAdapter :
         val data = getItem(position)
         val storyCount = itemCount.toString().toInt()
         Log.d("StoryListAdapter", "Story Count: $storyCount")
-        for (i in (0..(storyCount-1))) {
+        for (i in (0 until storyCount)) {
             if (getItem(i) != null) {
                 listData.add(getItem(i)!!)
             }
@@ -43,7 +43,7 @@ class StoryListAdapter :
     fun getListData(): ArrayList<Story>{
         return listData
     }
-    class ViewHolder(private val binding: LinearLayoutListItemBinding) :
+    class ViewHolder(binding: LinearLayoutListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val storyImage: ImageView = binding.ivItemStory
         private val userImage: ImageView = binding.ivItemAvatar

@@ -1,4 +1,4 @@
-package com.dicoding.aetherized.aetherizedstoryappview.utils
+package com.dicoding.aetherized.aetherizedstoryappview
 
 class MainDispatherRule {
 }

@@ -1,10 +1,10 @@
-package com.dicoding.aetherized.aetherizedstoryappview.util.network
+package com.dicoding.aetherized.aetherizedstoryappview.data.remote
 
 import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
-import com.dicoding.aetherized.aetherizedstoryappview.data.response.UserResponse
-import com.dicoding.aetherized.aetherizedstoryappview.data.response.GeneralResponse
-import com.dicoding.aetherized.aetherizedstoryappview.data.response.StoriesResponse
-import com.dicoding.aetherized.aetherizedstoryappview.data.response.StoryResponse
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.response.UserResponse
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.response.GeneralResponse
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.response.StoriesResponse
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.response.StoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*

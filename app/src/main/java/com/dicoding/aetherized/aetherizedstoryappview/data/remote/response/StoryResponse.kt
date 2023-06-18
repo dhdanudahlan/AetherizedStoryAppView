@@ -1,6 +1,6 @@
-package com.dicoding.aetherized.aetherizedstoryappview.data.response
+package com.dicoding.aetherized.aetherizedstoryappview.data.remote.response
 
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.dto.StoryDto
 import com.google.gson.annotations.SerializedName
 
 data class StoryResponse(
@@ -9,7 +9,7 @@ data class StoryResponse(
     @SerializedName("message")
     val message: String,
     @SerializedName("story")
-    val data: Story
+    val data: StoryDto
 )
 
 data class StoriesResponse(
@@ -18,5 +18,5 @@ data class StoriesResponse(
     @SerializedName("message")
     val message: String,
     @SerializedName("listStory")
-    val data: List<Story>
+    val data: List<StoryDto>
 )

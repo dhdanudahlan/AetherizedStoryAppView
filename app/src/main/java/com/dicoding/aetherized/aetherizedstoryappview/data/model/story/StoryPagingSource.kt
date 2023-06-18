@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
-import com.dicoding.aetherized.aetherizedstoryappview.data.response.StoriesResponse
-import com.dicoding.aetherized.aetherizedstoryappview.util.network.ApiService
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.ApiService
 
 class StoryPagingSource(private val loginResult: LoginResult, private val apiService: ApiService, private val enableLocation: Boolean) :
 PagingSource<Int, Story>() {
@@ -20,7 +19,9 @@ PagingSource<Int, Story>() {
             val location = if (enableLocation) 1 else 0
             Log.d("StoryPagingSource", "location: $location")
             val responseData = apiService.getAllStories(token, position, params.loadSize, location)
-            val stories = responseData.data
+            val stories = responseData.data.map {
+                it.toStoryEntity().toStory()
+            }
 
             LoadResult.Page(
                 data = stories,

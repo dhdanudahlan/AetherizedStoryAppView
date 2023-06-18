@@ -25,15 +25,10 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-
-//    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_datastore")
-
-//    private val pref = CustomPreference(this)
     private val preferenceDataStore by lazy { (application as MyApplication).customPreference }
 
     private val viewModelFactory by lazy { ViewModelFactory(preferenceDataStore) }
     private val settingsViewModel by viewModels<SettingsViewModel> { viewModelFactory }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

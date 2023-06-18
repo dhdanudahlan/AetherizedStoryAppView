@@ -1,14 +1,11 @@
 package com.dicoding.aetherized.aetherizedstoryappview.data.model.story
 
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.dicoding.aetherized.aetherizedstoryappview.data.local.entity.StoryEntity
 import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "story")
 @Parcelize
 data class Story(
-    @PrimaryKey
     val id: String,
     val name: String,
     val description: String,
@@ -16,4 +13,16 @@ data class Story(
     val createdAt: String,
     val lat: String? = "0",
     val lon: String? = "0"
-): Parcelable
+): Parcelable {
+    fun toStoryEntity(): StoryEntity {
+        return StoryEntity(
+            storyId = id,
+            name = name,
+            description = description,
+            photoUrl = photoUrl,
+            createdAt = createdAt,
+            lat = lat,
+            lon = lon
+        )
+    }
+}

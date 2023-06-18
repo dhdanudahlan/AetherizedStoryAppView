@@ -22,10 +22,8 @@ import com.dicoding.aetherized.aetherizedstoryappview.ui.adapter.LoadingStateAda
 import com.dicoding.aetherized.aetherizedstoryappview.ui.adapter.StoryListAdapter
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.maps.MapsActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
-import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
-import com.loopj.android.http.AsyncHttpClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -60,7 +58,6 @@ class FeedsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_feeds, container, false)
         lifecycleScope.launch {
             preferenceDataStore.loginResultFlow.collect { loginResult ->
@@ -107,7 +104,6 @@ class FeedsFragment : Fragment() {
         loadStories(storyAdapter, false)
 
         locationSwitch.setOnCheckedChangeListener { _, isChecked ->
-//            viewModel.switchEnableLocation()
             loadStories(storyAdapter, isChecked)
             viewMap.isEnabled = true
         }

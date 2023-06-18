@@ -115,11 +115,7 @@ class CustomViewEditTextEmail : AppCompatEditText, View.OnTouchListener, TextWat
         return emailPattern.matches(email)
     }
 
-
-
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        // No action needed here
-    }
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         if (s.toString().isNotEmpty()) {
@@ -132,7 +128,6 @@ class CustomViewEditTextEmail : AppCompatEditText, View.OnTouchListener, TextWat
             hideClearButton()
         }
     }
-
 
     override fun afterTextChanged(s: Editable?) {
         error = if (s != null && s.length < 8) {

@@ -11,8 +11,6 @@ import com.dicoding.aetherized.aetherizedstoryappview.R
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivitySettingsBinding
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.fragments.PrefsFragment
 
-
-//private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
