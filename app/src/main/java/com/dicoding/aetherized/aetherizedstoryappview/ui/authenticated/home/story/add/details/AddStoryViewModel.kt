@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.data.response.GeneralResponse
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
 import com.dicoding.aetherized.aetherizedstoryappview.util.network.ApiConfig
@@ -16,7 +16,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
-class AddStoryViewModel(private val pref: CustomPreference) : ViewModel() {
+class AddStoryViewModel(private val preferenceDataStore: CustomPreference) : ViewModel() {
     private val apiService = ApiConfig.getApiService()
 
     private val _response = MutableLiveData<GeneralResponse>()
@@ -25,18 +25,20 @@ class AddStoryViewModel(private val pref: CustomPreference) : ViewModel() {
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
-    fun addNewStory(imageFile: File, description: String, loginResult: LoginResult, onResult: (GeneralResponse) -> Unit) {
+    fun addNewStory(imageFile: File, description: String, latitude: Double, longitude: Double, loginResult: LoginResult, onResult: (GeneralResponse) -> Unit) {
         viewModelScope.launch {
             val imageRequestBody = imageFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imagePart =
                 MultipartBody.Part.createFormData("photo", imageFile.name, imageRequestBody)
             val descriptionRequestBody = description.toRequestBody()
+            val latitudeRequestBody = latitude.toString().toRequestBody()
+            val longitudeRequestBody = longitude.toString().toRequestBody()
 
             if (loginResult.token != "GUEST") {
                 viewModelScope.launch {
                     val token = "Bearer ${loginResult.token}"
                     try {
-                        val responseTemp = apiService.addNewStory(token, descriptionRequestBody, imagePart)
+                        val responseTemp = apiService.addNewStory(token, descriptionRequestBody, imagePart, latitudeRequestBody, longitudeRequestBody)
                         responseTemp.let { _response.postValue(it) }
                         onResult(responseTemp)
                     } catch (exception: Exception) {
@@ -47,7 +49,7 @@ class AddStoryViewModel(private val pref: CustomPreference) : ViewModel() {
             } else {
                 viewModelScope.launch {
                     try {
-                        val responseTemp = apiService.addNewStoryGuest(descriptionRequestBody, imagePart)
+                        val responseTemp = apiService.addNewStoryGuest(descriptionRequestBody, imagePart, latitudeRequestBody, longitudeRequestBody)
                         responseTemp.let { _response.postValue(it) }
                         onResult(responseTemp)
                     } catch (exception: Exception) {

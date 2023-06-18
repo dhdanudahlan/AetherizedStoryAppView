@@ -41,7 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView">
 
-        <com.dicoding.aetherized.aetherizedstoryappview.util.customview.MyEditText
+        <com.dicoding.aetherized.aetherizedstoryappview.util.customview.CustomViewEditText
             android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailTextView">
 
-        <com.dicoding.aetherized.aetherizedstoryappview.util.customview.MyEditText
+        <com.dicoding.aetherized.aetherizedstoryappview.util.customview.CustomViewEditTextEmail
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,18 +106,17 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordTextView"
         app:passwordToggleEnabled="true">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.dicoding.aetherized.aetherizedstoryappview.util.customview.CustomViewEditTextPassword
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:ems="10"
-            android:inputType="textPassword"
-            app:passwordToggleEnabled="true"
-            android:hint="@string/password"/>
+            android:hint="@string/password"
+            tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.dicoding.aetherized.aetherizedstoryappview.util.customview.MyButton
+    <com.dicoding.aetherized.aetherizedstoryappview.util.customview.CustomViewButton
         android:id="@+id/signupButton"
         android:layout_width="0dp"
         android:layout_height="64dp"

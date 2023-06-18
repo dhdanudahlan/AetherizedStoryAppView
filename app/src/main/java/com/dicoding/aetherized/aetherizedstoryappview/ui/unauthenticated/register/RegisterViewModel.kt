@@ -6,12 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.User
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.User
 import com.dicoding.aetherized.aetherizedstoryappview.data.response.GeneralResponse
 import com.dicoding.aetherized.aetherizedstoryappview.util.network.ApiConfig
 import kotlinx.coroutines.launch
 
-class RegisterViewModel(private val pref: CustomPreference) : ViewModel() {
+class RegisterViewModel(private val preferenceDataStore: CustomPreference) : ViewModel() {
     private val apiService = ApiConfig.getApiService()
 
     private val _response = MutableLiveData<GeneralResponse>()

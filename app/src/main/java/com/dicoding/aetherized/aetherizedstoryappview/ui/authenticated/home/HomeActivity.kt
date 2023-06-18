@@ -1,68 +1,63 @@
 package com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home
 
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
+import androidx.paging.PagingData
 import com.dicoding.aetherized.aetherizedstoryappview.R
-import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityHomeBinding
-import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.FeedsFragment
+import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.maps.MapsActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.profile.ProfileFragment
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.StoryFragment
-import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.camera.CameraActivity
-import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.details.AddStoryActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
-import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.main.MainActivity
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.io.File
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
 
-    private val viewModelFactory by lazy { ViewModelFactory(CustomPreference(this)) }
-    private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
+
+    private val preferenceDataStore by lazy { (application as MyApplication).customPreference }
+
+    private val viewModelFactory by lazy { ViewModelFactory(preferenceDataStore) }
     private val settingsViewModel by viewModels<SettingsViewModel> { viewModelFactory }
+
 
     private lateinit var toolBar: Toolbar
     private lateinit var toolbarTitle1: String
     private lateinit var toolbarTitle2: String
     private lateinit var toolbarTitle3: String
     private lateinit var toolbarTitleDetails: String
+    private lateinit var loginResult: LoginResult
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         initializeValue()
         setupView()
         observeSettings()
-
     }
     private fun initializeValue(){
         toolbarTitle1 = resources.getString(R.string.toolBarTitle1)
         toolbarTitle2 = resources.getString(R.string.toolBarTitle2)
         toolbarTitle3 = resources.getString(R.string.toolBarTitle3)
         toolbarTitleDetails = "Story Details"
-
-
+        loginResult = LoginResult()
     }
 
     private fun observeSettings() {
@@ -78,16 +73,16 @@ class HomeActivity : AppCompatActivity() {
         settingsViewModel.getHomePageSettings().observe(this) { homepage ->
             bottomNav(homepage)
         }
+
     }
     private fun setupView(){
-        toolBar = findViewById(R.id.toolbar)
+        toolBar = binding.toolbar
         setSupportActionBar(toolBar)
 
     }
 
     private fun bottomNav(homepage: String) {
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-
         when (homepage) {
             "Feeds" -> {
                 val fragment = FeedsFragment()
@@ -96,7 +91,6 @@ class HomeActivity : AppCompatActivity() {
                 bottomNavigation.selectedItemId = R.id.feeds
             }
             "Add" -> {
-
                 val fragment = StoryFragment()
                 replaceFragment(fragment)
                 replaceToobar(toolbarTitle2)
@@ -139,6 +133,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
+
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
             commit()
@@ -161,7 +156,7 @@ class HomeActivity : AppCompatActivity() {
             }
             R.id.action_logout -> {
                 settingsViewModel.logout()
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, MapsActivity::class.java)
                 startActivity(intent)
             }
         }

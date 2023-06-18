@@ -1,18 +1,17 @@
 package com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.camera
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -21,23 +20,23 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityCameraBinding
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.details.AddStoryActivity
-import com.dicoding.aetherized.aetherizedstoryappview.util.helper.createFile
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.createImageFile
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.uriToFile
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.nio.file.Files.createFile
 
 class CameraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraBinding
-    private lateinit var outputDirectory: File
 
     private var imageCapture: ImageCapture? = null
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var flashEnabled = false
 
+    private var imageFile: File? = null
+
     companion object {
 
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
@@ -95,12 +94,8 @@ class CameraActivity : AppCompatActivity() {
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
 
-        val photoFile = createFile(application)
-
-//        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-//
-//        val photoFile = File(outputDirectory, "IMG_${timeStamp}.jpg")
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        val imageFile = createImageFile(application)
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(imageFile).build()
 
         imageCapture.takePicture(
             outputOptions,
@@ -108,25 +103,31 @@ class CameraActivity : AppCompatActivity() {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val intent = Intent().apply {
-                        putExtra("capturedImageFile", photoFile)
+                        putExtra("imageFile", imageFile)
+                        putExtra("isGallery", false)
                     }
                     setResult(AddStoryActivity.CAMERA_REQUEST_CODE, intent)
                     finish()
                 }
+
                 override fun onError(exc: ImageCaptureException) {
-                    Log.e("CameraActivity", "Photo capture failed: ${exc.message}", exc)
+                    Log.e("CameraActivity", "Image capture failed: ${exc.message}", exc)
                     Toast.makeText(
                         this@CameraActivity,
-                        "Gagal mengambil gambar.",
+                        "Failed to capture image.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
         )
+
     }
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galleryLauncher.launch(intent)
+        val intent = Intent()
+        intent.action = Intent.ACTION_GET_CONTENT
+        intent.type = "image/*"
+        val chooser = Intent.createChooser(intent, "Choose a Picture")
+        galleryLauncher.launch(chooser)
     }
     private fun switchCamera() {
         cameraSelector =
@@ -188,18 +189,20 @@ class CameraActivity : AppCompatActivity() {
     private val galleryLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { uri ->
+        if (result.resultCode == RESULT_OK) {
+            val selectedImg = result.data?.data as Uri
+
+            selectedImg.let { uri ->
+                val myFile = uriToFile(uri, this@CameraActivity)
+
                 val intent = Intent().apply {
-                    putExtra("data", uri)
-                    putExtra(
-                        "isBackCamera",
-                        cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
-                    )
+                    putExtra("imageFile", myFile)
+                    putExtra("isGallery", true)
                 }
                 setResult(AddStoryActivity.CAMERA_REQUEST_CODE, intent)
                 finish()
             }
         }
     }
+
 }

@@ -15,14 +15,17 @@ import androidx.preference.SwitchPreferenceCompat
 import com.dicoding.aetherized.aetherizedstoryappview.R
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
 
-private val Context.dataStore by preferencesDataStore(name = "settings")
+//private val Context.dataStore by preferencesDataStore(name = "user_datastore")
 class PrefsFragment : PreferenceFragmentCompat() {
 
     private lateinit var switchTheme: SwitchPreferenceCompat
     private lateinit var homePage: ListPreference
-    private val viewModelFactory by lazy { ViewModelFactory(CustomPreference(requireContext())) }
+
+    private val preferenceDataStore by lazy { ( requireActivity().application as MyApplication).customPreference }
+    private val viewModelFactory by lazy { ViewModelFactory(preferenceDataStore) }
     private val settingsViewModel by viewModels<SettingsViewModel> { viewModelFactory }
 
 

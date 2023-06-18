@@ -12,4 +12,5 @@ object Constants {
     const val PREF_STATE = "state"
     const val PREF_LOGIN = "login_result"
 
+    const val MAXIMAL_SIZE = 1000000
 }

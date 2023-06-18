@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.LoginResult
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.User
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.User
 import com.dicoding.aetherized.aetherizedstoryappview.data.response.UserResponse
 import com.dicoding.aetherized.aetherizedstoryappview.util.network.ApiConfig
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val pref: CustomPreference): ViewModel() {
+class LoginViewModel(private val preferenceDataStore: CustomPreference): ViewModel() {
     private val apiService = ApiConfig.getApiService()
 
     private val _loginResult = MutableLiveData<LoginResult?>()
@@ -27,7 +27,6 @@ class LoginViewModel(private val pref: CustomPreference): ViewModel() {
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
-
     fun login(email: String, password: String, onResult: (UserResponse<LoginResult>) -> Unit) {
         viewModelScope.launch {
             try {
@@ -41,9 +40,12 @@ class LoginViewModel(private val pref: CustomPreference): ViewModel() {
                 responseTemp.let {
                     _loginResult.postValue(it.data)
                     _errorMessage.postValue(it.message)
-                    Log.d("LoginViewModel", it.message)
-                    if (it.data != null) { saveLogin(it.data) }
                     onResult(it)
+                }
+                if (!responseTemp.error) {
+                    responseTemp.data?.let { loginResult ->
+                        saveLogin(loginResult)
+                    }
                 }
             } catch (exception: Exception) {
                 Log.d("LoginViewModelExc", "==========FAILED========== ${exception}")
@@ -58,7 +60,7 @@ class LoginViewModel(private val pref: CustomPreference): ViewModel() {
                 val guestLoginResult = LoginResult("GUEST", "GUEST", "GUEST")
                 _loginResult.postValue(guestLoginResult)
                 _errorMessage.postValue("lOGGED IN AS GUEST")
-                Log.d("LoginViewModel", "lOGGED IN AS GUEST")
+                Log.d("LoginViewModel", "LOGGED IN AS GUEST")
                 saveLogin(guestLoginResult)
                 onResult(guestLoginResult)
             } catch (exception: Exception) {
@@ -72,7 +74,7 @@ class LoginViewModel(private val pref: CustomPreference): ViewModel() {
 
     private fun saveLogin(loginResult: LoginResult) {
         viewModelScope.launch {
-            pref.saveLogin(loginResult)
+            preferenceDataStore.saveLogin(loginResult)
         }
     }
 

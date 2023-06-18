@@ -9,23 +9,29 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.dicoding.aetherized.aetherizedstoryappview.R
+import androidx.lifecycle.lifecycleScope
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityMainBinding
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.HomeActivity
-import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.HomeViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.login.LoginActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.register.RegisterActivity
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModelFactory by lazy { ViewModelFactory(CustomPreference(this)) }
-    private val viewModel by viewModels<MainViewModel> { viewModelFactory }
+
+
+//    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_datastore")
+
+//    private val pref = CustomPreference(this)
+    private val preferenceDataStore by lazy { (application as MyApplication).customPreference }
+
+    private val viewModelFactory by lazy { ViewModelFactory(preferenceDataStore) }
     private val settingsViewModel by viewModels<SettingsViewModel> { viewModelFactory }
 
 
@@ -34,12 +40,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        settingsViewModel.loginResultLiveData.observe(this) { loginResult ->
-
-            Log.d("MainActivityLoggedCheck", "$loginResult | ${loginResult?.token}")
-            if (loginResult != null) {
-                if (loginResult.token != null) {
-                    startActivity(Intent(this, HomeActivity::class.java))
+        lifecycleScope.launch {
+            preferenceDataStore.loginResultFlow.collect { loginResult ->
+                Log.d("MainActivityLoggedCheck", "$loginResult | ${loginResult.token}")
+                if (loginResult.token != "GUEST") {
+                    val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    startActivity(intent)
                     finish()
                 }
             }

@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.dicoding.aetherized.aetherizedstoryappview.R
 
-class MyButton: AppCompatButton {
+class CustomViewButton: AppCompatButton {
 
     private lateinit var enabledBackground: Drawable
     private lateinit var disabledBackground: Drawable

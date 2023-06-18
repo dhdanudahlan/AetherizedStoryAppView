@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.dicoding.aetherized.aetherizedstoryappview.R
 
-class MyEditText : AppCompatEditText, View.OnTouchListener {
+class CustomViewEditText : AppCompatEditText, View.OnTouchListener {
 
     private lateinit var clearButtonImage: Drawable
 
@@ -77,7 +77,6 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
             val clearButtonStart: Float
             val clearButtonEnd: Float
             var isClearButtonClicked = false
-            Log.d("MyEditText", "onTouch")
             if (layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                 clearButtonEnd = (clearButtonImage.intrinsicWidth + paddingStart).toFloat()
                 when {
@@ -94,18 +93,15 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
                     MotionEvent.ACTION_DOWN -> {
                         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close) as Drawable
                         showClearButton()
-                        Log.d("MyEditText", "ACTION_DOWN")
                         return true
                     }
                     MotionEvent.ACTION_UP -> {
                         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close) as Drawable
-                        Log.d("MyEditText", "ACTION_UP BEFORE: $text")
                         when {
                             text != null -> text?.clear()
                         }
                         hideClearButton()
 
-                        Log.d("MyEditText", "ACTION_UP AFTER: $text")
                         return true
                     }
                     else -> return false

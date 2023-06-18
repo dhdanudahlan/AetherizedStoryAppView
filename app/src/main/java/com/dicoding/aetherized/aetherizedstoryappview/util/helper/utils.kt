@@ -1,19 +1,26 @@
 package com.dicoding.aetherized.aetherizedstoryappview.util.helper
 
 import android.app.Application
+import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.net.Uri
 import android.os.Environment
+import android.provider.MediaStore
+import androidx.exifinterface.media.ExifInterface
 import com.dicoding.aetherized.aetherizedstoryappview.R
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-private const val FILENAME_FORMAT = "dd-MMM-yyyy"
+private const val FILENAME_FORMAT = "yyyyMMdd,HHmmss"
 private const val MAXIMAL_SIZE = 1000000
 
 val timeStamp: String = SimpleDateFormat(
@@ -21,12 +28,16 @@ val timeStamp: String = SimpleDateFormat(
     Locale.US
 ).format(System.currentTimeMillis())
 
+fun createName(): String {
+    return "IMG_$timeStamp.jpg"
+}
+
 fun createCustomTempFile(context: Context): File {
     val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     return File.createTempFile(timeStamp, ".jpg", storageDir)
 }
 
-fun createFile(application: Application): File {
+fun createImageFile(application: Application): File {
     val mediaDir = application.externalMediaDirs.firstOrNull()?.let {
         File(it, application.resources.getString(R.string.app_name)).apply { mkdirs() }
     }
@@ -35,10 +46,9 @@ fun createFile(application: Application): File {
         mediaDir != null && mediaDir.exists()
     ) mediaDir else application.filesDir
 
-    return File(outputDirectory, "$timeStamp.jpg")
+    return File(outputDirectory, createName())
 }
-
-fun rotateFile(file: File, isBackCamera: Boolean = false) {
+fun rotateImage(file: File, isBackCamera: Boolean = false) {
     val matrix = Matrix()
     val bitmap = BitmapFactory.decodeFile(file.path)
     val rotation = if (isBackCamera) 90f else -90f
@@ -50,7 +60,20 @@ fun rotateFile(file: File, isBackCamera: Boolean = false) {
     result.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(file))
 }
 
+fun uriToFile(selectedImg: Uri, context: Context): File {
+    val contentResolver: ContentResolver = context.contentResolver
+    val myFile = createCustomTempFile(context)
 
+    val inputStream = contentResolver.openInputStream(selectedImg) as InputStream
+    val outputStream: OutputStream = FileOutputStream(myFile)
+    val buf = ByteArray(1024)
+    var len: Int
+    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+    outputStream.close()
+    inputStream.close()
+
+    return myFile
+}
 fun reduceFileImage(file: File): File {
     val bitmap = BitmapFactory.decodeFile(file.path)
 

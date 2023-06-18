@@ -2,7 +2,6 @@ package com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.regist
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -14,23 +13,19 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.User
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.User
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityRegisterBinding
-import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.main.MainActivity
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
-import com.dicoding.aetherized.aetherizedstoryappview.util.network.ApiConfig
-import java.util.regex.Pattern
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+//private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
-    private val viewModelFactory by lazy { ViewModelFactory(CustomPreference(this)) }
+    private val preferenceDataStore by lazy { ( application as MyApplication).customPreference }
+    private val viewModelFactory by lazy { ViewModelFactory(preferenceDataStore) }
     private val viewModel by viewModels<RegisterViewModel> { viewModelFactory }
 
 
@@ -92,11 +87,6 @@ class RegisterActivity : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 passForm = isValidPassword(s.toString())
-                if (!passForm) {
-                    binding.passwordEditText.error = "Requires minimum 8 characters"
-                } else {
-                    binding.passwordEditText.error =  null
-                }
                 setMyButtonEnable()
             }
             override fun afterTextChanged(s: Editable) {
@@ -116,9 +106,6 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 password.isEmpty() -> {
                     binding.passwordEditTextLayout.error = "Masukkan password"
-                }
-                isValidPassword(password) -> {
-                    binding.passwordEditTextLayout.error = "Masukkan minimal 8 karakter"
                 }
                 else -> {
                     val user = User(name, email.lowercase(), password, false)
@@ -140,13 +127,10 @@ class RegisterActivity : AppCompatActivity() {
         binding.signupButton.isEnabled = formFilled
     }
     private fun isValidPassword(password: String): Boolean {
-        return (password.length < 8)
+        return password.length >= 8
     }
     private fun isValidEmail(email: String): Boolean {
-        val emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z]{2,6}$"
-        val pattern = Pattern.compile(emailPattern, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(email)
-        return matcher.matches()
+        return email.length >= 5
     }
     private fun playAnimation() {
         val translationAnimator = ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -60f, 60f).apply {

@@ -7,16 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dicoding.aetherized.aetherizedstoryappview.R
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.Story
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.User
-import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.FeedsViewModel
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.Constants
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
 
 class DetailsFragment : Fragment() {
@@ -24,9 +21,9 @@ class DetailsFragment : Fragment() {
     private lateinit var story: Story
 
 
-    private val viewModelFactory by lazy { ViewModelFactory(CustomPreference(requireContext())) }
-    private val viewModel by viewModels<DetailsViewModel> { viewModelFactory }
-    private val feedsViewModel by viewModels<FeedsViewModel> { viewModelFactory }
+    private val preferenceDataStore by lazy { ( requireActivity().application as MyApplication).customPreference }
+
+    private val viewModelFactory by lazy { ViewModelFactory(preferenceDataStore) }
     private val settingsViewModel by viewModels<SettingsViewModel> { viewModelFactory }
 
     override fun onCreateView(

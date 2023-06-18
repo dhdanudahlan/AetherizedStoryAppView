@@ -2,36 +2,40 @@ package com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityLoginBinding
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.HomeActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
-import java.util.regex.Pattern
+
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
-    private val viewModelFactory by lazy { ViewModelFactory(CustomPreference(this)) }
+
+//    private val pref = CustomPreference(this)
+
+    private val preferenceDataStore by lazy { (application as MyApplication).customPreference }
+
+    private val viewModelFactory by lazy { ViewModelFactory(preferenceDataStore) }
     private val viewModel by viewModels<LoginViewModel> { viewModelFactory }
     private val settingsViewModel by viewModels<SettingsViewModel> { viewModelFactory }
+
+    private lateinit var loginResult: LoginResult
 
     private var emailForm = false
     private var passForm = false
@@ -72,8 +76,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
+        loginResult = LoginResult()
         viewModel.loginResult.observe(this) {
-            Log.d("LoginActivity", "loginResult: $it")
+            loginResult = it!!
         }
         viewModel.errorMessage.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
@@ -99,13 +104,6 @@ class LoginActivity : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 passForm = isValidPassword(s.toString())
-                if (passForm) {
-                    Log.d("PasswordLoginActivity", "passForm: ${passForm}, count: $count Text: ${s.toString()}")
-                    binding.passwordEditText.error = null
-                } else {
-                    Log.d("PasswordLoginActivity", "passForm: ${passForm}, count: $count Text: ${s.toString()}")
-                    binding.passwordEditText.error =  "Requires minimum 8 characters"
-                }
                 setMyButtonEnable()
             }
             override fun afterTextChanged(s: Editable) {
@@ -118,16 +116,15 @@ class LoginActivity : AppCompatActivity() {
 
             when {
                 email.isEmpty() -> {
-                    binding.emailEditTextLayout.error = "Masukkan email"
+                    binding.emailEditTextLayout.error = "Fill the email address"
                 }
                 password.isEmpty() -> {
-                    binding.passwordEditTextLayout.error = "Masukkan password"
+                    binding.passwordEditTextLayout.error = "Fill the password"
                 }
                 else -> {
                     viewModel.login(email, password) { response ->
                         if (!response.error) {
                             Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
-
                             val intent = Intent(this, HomeActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -156,10 +153,7 @@ class LoginActivity : AppCompatActivity() {
         return (password.length > 7)
     }
     private fun isValidEmail(email: String): Boolean {
-        val emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z]{2,6}$"
-        val pattern = Pattern.compile(emailPattern, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(email)
-        return matcher.matches()
+        return email.length >= 5
     }
     private fun playAnimation() {
         val translationAnimator = ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -60f, 60f).apply {

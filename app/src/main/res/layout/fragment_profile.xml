@@ -4,11 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.authenticated.home.profile.ProfileFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:text="@string/avatar_name" />
+        <TextView
+            android:id="@+id/profile_userId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:text="@string/avatar_username" />
+        <TextView
+            android:id="@+id/profile_token"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:text="@string/avatar_story" />
+    </LinearLayout>
 
 </FrameLayout>

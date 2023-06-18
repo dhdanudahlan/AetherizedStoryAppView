@@ -1,6 +1,6 @@
 package com.dicoding.aetherized.aetherizedstoryappview.data.response
 
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.Story
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
 import com.google.gson.annotations.SerializedName
 
 data class StoryResponse(

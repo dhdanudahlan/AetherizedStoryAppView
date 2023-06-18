@@ -1,7 +1,6 @@
 package com.dicoding.aetherized.aetherizedstoryappview.util.network
 
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.LoginResult
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.Story
+import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.data.response.UserResponse
 import com.dicoding.aetherized.aetherizedstoryappview.data.response.GeneralResponse
 import com.dicoding.aetherized.aetherizedstoryappview.data.response.StoriesResponse
@@ -27,14 +26,18 @@ interface ApiService {
     suspend fun addNewStory(
         @Header("Authorization") token: String,
         @Part("description") description: RequestBody,
-        @Part photo: MultipartBody.Part
+        @Part photo: MultipartBody.Part,
+        @Part("lat") lat: RequestBody,
+        @Part("lon") lon: RequestBody,
     ): GeneralResponse
 
     @Multipart
     @POST("stories/guest")
     suspend fun addNewStoryGuest(
         @Part("description") description: RequestBody,
-        @Part photo: MultipartBody.Part
+        @Part photo: MultipartBody.Part,
+        @Part("lat") lat: RequestBody,
+        @Part("lon") lon: RequestBody,
     ): GeneralResponse
 
     @GET("stories")
@@ -42,6 +45,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("page") page: Int,
         @Query("size") size: Int,
+        @Query("location") location: Int,
     ): StoriesResponse
 
     @GET("stories/{id}")
