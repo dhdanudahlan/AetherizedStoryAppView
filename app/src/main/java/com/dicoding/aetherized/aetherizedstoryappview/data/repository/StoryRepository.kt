@@ -9,9 +9,10 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import androidx.paging.map
 import com.dicoding.aetherized.aetherizedstoryappview.data.local.database.StoryDatabase
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
-import com.dicoding.aetherized.aetherizedstoryappview.data.remote.ApiService
+import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.api.ApiService
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.StoryRemoteMediator
 
 class StoryRepository(private val loginResult: LoginResult, private val storyDatabase: StoryDatabase, private val apiService: ApiService) {
     @OptIn(ExperimentalPagingApi::class)

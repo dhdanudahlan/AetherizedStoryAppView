@@ -14,7 +14,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityLoginBinding
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.HomeActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel

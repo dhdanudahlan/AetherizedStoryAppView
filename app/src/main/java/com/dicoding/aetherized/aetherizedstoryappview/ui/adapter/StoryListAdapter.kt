@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.aetherized.aetherizedstoryappview.R
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.LinearLayoutListItemBinding
+import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.details.DetailsFragment
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.Constants
 
@@ -74,7 +74,7 @@ class StoryListAdapter :
         }
     }
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Story>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Story>() {
             override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
                 return oldItem == newItem
             }

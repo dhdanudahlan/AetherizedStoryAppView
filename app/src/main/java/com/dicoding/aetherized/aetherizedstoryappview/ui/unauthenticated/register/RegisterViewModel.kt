@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.User
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.User
 import com.dicoding.aetherized.aetherizedstoryappview.data.remote.response.GeneralResponse
-import com.dicoding.aetherized.aetherizedstoryappview.data.remote.ApiConfig
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.api.ApiConfig
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(private val preferenceDataStore: CustomPreference) : ViewModel() {

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.dicoding.aetherized.aetherizedstoryappview.R
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.details.AddStoryActivity
 import java.io.File
 

@@ -14,8 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.aetherized.aetherizedstoryappview.R
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.data.repository.StoryRepository
 import com.dicoding.aetherized.aetherizedstoryappview.di.Injection
 import com.dicoding.aetherized.aetherizedstoryappview.ui.adapter.LoadingStateAdapter

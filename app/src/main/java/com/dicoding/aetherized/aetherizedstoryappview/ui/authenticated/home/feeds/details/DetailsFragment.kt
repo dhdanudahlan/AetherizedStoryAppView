@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.dicoding.aetherized.aetherizedstoryappview.R
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.Constants
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference

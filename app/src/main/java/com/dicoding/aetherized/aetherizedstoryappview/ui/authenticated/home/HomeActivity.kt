@@ -12,8 +12,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.paging.PagingData
 import com.dicoding.aetherized.aetherizedstoryappview.R
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityHomeBinding
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.FeedsFragment
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.maps.MapsActivity

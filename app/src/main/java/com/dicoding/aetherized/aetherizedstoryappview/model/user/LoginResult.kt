@@ -1,4 +1,4 @@
-package com.dicoding.aetherized.aetherizedstoryappview.data.model.user
+package com.dicoding.aetherized.aetherizedstoryappview.model.user
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

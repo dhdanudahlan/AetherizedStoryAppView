@@ -3,7 +3,7 @@ package com.dicoding.aetherized.aetherizedstoryappview.data.local.entity
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 

@@ -1,7 +1,7 @@
 package com.dicoding.aetherized.aetherizedstoryappview.util.helper
 
 import androidx.recyclerview.widget.DiffUtil
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
 
 class StoryDiffCallback(private val mOldStoryList: List<Story>, private val mNewStoryList: List<Story>) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {

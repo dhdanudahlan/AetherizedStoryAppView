@@ -2,6 +2,7 @@
 buildscript {
     dependencies {
         classpath "androidx.arch.core:core-testing:2.1.0"
+        classpath "androidx.test:runner:1.4.0"
     }
 }
 plugins {

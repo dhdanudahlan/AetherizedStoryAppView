@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.User
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.User
 import com.dicoding.aetherized.aetherizedstoryappview.data.remote.response.UserResponse
-import com.dicoding.aetherized.aetherizedstoryappview.data.remote.ApiConfig
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.api.ApiConfig
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val preferenceDataStore: CustomPreference): ViewModel() {

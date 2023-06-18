@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

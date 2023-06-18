@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.aetherized.aetherizedstoryappview.R
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.data.repository.StoryRepository
 import com.dicoding.aetherized.aetherizedstoryappview.di.Injection
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication

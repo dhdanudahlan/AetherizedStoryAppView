@@ -17,7 +17,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityAddStoryBinding
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.HomeActivity
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.camera.CameraActivity

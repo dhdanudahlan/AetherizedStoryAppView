@@ -13,7 +13,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.User
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.User
 import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityRegisterBinding
 import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.main.MainActivity
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference

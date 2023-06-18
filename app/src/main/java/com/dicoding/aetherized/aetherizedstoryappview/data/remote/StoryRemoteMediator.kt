@@ -1,4 +1,4 @@
-package com.dicoding.aetherized.aetherizedstoryappview.data.repository
+package com.dicoding.aetherized.aetherizedstoryappview.data.remote
 
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
@@ -9,8 +9,8 @@ import androidx.room.withTransaction
 import com.dicoding.aetherized.aetherizedstoryappview.data.local.database.RemoteKeys
 import com.dicoding.aetherized.aetherizedstoryappview.data.local.database.StoryDatabase
 import com.dicoding.aetherized.aetherizedstoryappview.data.local.entity.StoryEntity
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
-import com.dicoding.aetherized.aetherizedstoryappview.data.remote.ApiService
+import com.dicoding.aetherized.aetherizedstoryappview.data.remote.api.ApiService
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
 
 @OptIn(ExperimentalPagingApi::class)
 class StoryRemoteMediator(

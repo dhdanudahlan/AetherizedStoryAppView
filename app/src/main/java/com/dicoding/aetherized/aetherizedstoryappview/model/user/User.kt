@@ -1,4 +1,4 @@
-package com.dicoding.aetherized.aetherizedstoryappview.data.model.user
+package com.dicoding.aetherized.aetherizedstoryappview.model.user
 
 data class User(
     val name: String,

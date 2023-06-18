@@ -2,7 +2,7 @@ package com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings
 
 import androidx.lifecycle.*
 import com.dicoding.aetherized.aetherizedstoryappview.util.helper.CustomPreference
-import com.dicoding.aetherized.aetherizedstoryappview.data.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
 import kotlinx.coroutines.launch
 
 class SettingsViewModel (private val preferenceDataStore: CustomPreference) : ViewModel() {

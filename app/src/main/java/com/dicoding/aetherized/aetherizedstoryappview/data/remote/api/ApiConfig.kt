@@ -1,4 +1,4 @@
-package com.dicoding.aetherized.aetherizedstoryappview.data.remote
+package com.dicoding.aetherized.aetherizedstoryappview.data.remote.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
