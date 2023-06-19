@@ -58,9 +58,8 @@ class StoryRemoteMediator(
                 apiService.getAllStories(token, page, state.config.pageSize, location)
 
             val storyEntityList = responseData.data.map { it.toStoryEntity() }
-            val storyList = storyEntityList.map { it.toStory() }
 
-            val endOfPaginationReached = storyList.isEmpty()
+            val endOfPaginationReached = storyEntityList.isEmpty()
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {

@@ -1,7 +1,6 @@
 package com.dicoding.aetherized.aetherizedstoryappview.ui.adapter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -19,7 +18,6 @@ import com.dicoding.aetherized.aetherizedstoryappview.util.helper.Constants
 
 class StoryListAdapter :
     PagingDataAdapter<Story, StoryListAdapter.ViewHolder>(DIFF_CALLBACK) {
-    private var listData:ArrayList<Story> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = LinearLayoutListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -28,20 +26,9 @@ class StoryListAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = getItem(position)
-        val storyCount = itemCount.toString().toInt()
-        Log.d("StoryListAdapter", "Story Count: $storyCount")
-        for (i in (0 until storyCount)) {
-            if (getItem(i) != null) {
-                listData.add(getItem(i)!!)
-            }
-        }
-        Log.d("StoryListAdapter", "StoryList Count: ${listData.size}")
         if (data != null) {
             holder.bind(data)
         }
-    }
-    fun getListData(): ArrayList<Story>{
-        return listData
     }
     class ViewHolder(binding: LinearLayoutListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -76,11 +63,11 @@ class StoryListAdapter :
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Story>() {
             override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Story, newItem: Story): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem == newItem
             }
         }
     }

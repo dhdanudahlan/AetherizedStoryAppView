@@ -7,7 +7,12 @@ import com.dicoding.aetherized.aetherizedstoryappview.data.repository.StoryRepos
 
 class FeedsPagingViewModel(private val storyRepository: StoryRepository) : ViewModel() {
 
-    fun getStories(enableLocation: Boolean) =
+    fun getAllStories(enableLocation: Boolean) =
         storyRepository.getAllStories(enableLocation).cachedIn(viewModelScope)
+
+    suspend fun deleteAllStories() {
+        storyRepository.deleteAllStories()
+    }
+
 }
 

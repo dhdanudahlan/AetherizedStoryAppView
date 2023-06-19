@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.aetherized.aetherizedstoryappview.data.repository.StoryRepository
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.HomeViewModel
-import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.details.DetailsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.FeedsPagingViewModel
+import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.details.DetailsViewModel
+import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.maps.MapsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.story.add.details.AddStoryViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.settings.SettingsViewModel
 import com.dicoding.aetherized.aetherizedstoryappview.ui.unauthenticated.login.LoginViewModel
@@ -35,6 +36,9 @@ class ViewModelFactory(private val preferenceDataStore: CustomPreference? = null
             }
             modelClass.isAssignableFrom(FeedsPagingViewModel::class.java) -> {
                 FeedsPagingViewModel(storyRepository!!) as T
+            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(storyRepository!!) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

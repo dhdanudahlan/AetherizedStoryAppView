@@ -14,10 +14,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.aetherized.aetherizedstoryappview.R
-import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
-import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.data.repository.StoryRepository
 import com.dicoding.aetherized.aetherizedstoryappview.di.Injection
+import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
 import com.dicoding.aetherized.aetherizedstoryappview.ui.adapter.LoadingStateAdapter
 import com.dicoding.aetherized.aetherizedstoryappview.ui.adapter.StoryListAdapter
 import com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.maps.MapsActivity
@@ -104,16 +104,21 @@ class FeedsFragment : Fragment() {
         loadStories(storyAdapter, false)
 
         locationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            lifecycleScope.launch {
+                viewModel.deleteAllStories()
+            }
             loadStories(storyAdapter, isChecked)
             viewMap.isEnabled = true
         }
     }
 
     private fun loadStories(storyAdapter: StoryListAdapter, enableLocation: Boolean) {
-        viewModel.getStories(enableLocation).observe(viewLifecycleOwner) { pagingData ->
-            storyList = ArrayList()
+
+
+        viewModel.getAllStories(enableLocation).observe(viewLifecycleOwner) { pagingData ->
             storyAdapter.submitData(lifecycle, pagingData)
-            storyList = storyAdapter.getListData()
+            Log.d("FeedsFragment", "StoryListSize Before: ${storyList.size}")
+            Log.d("FeedsFragment", "StoryListSize After: ${storyList.size}")
         }
     }
 }

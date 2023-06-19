@@ -1,26 +1,46 @@
 package com.dicoding.aetherized.aetherizedstoryappview.ui.authenticated.home.feeds.maps
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.aetherized.aetherizedstoryappview.R
+import com.dicoding.aetherized.aetherizedstoryappview.data.repository.StoryRepository
+import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityMapsBinding
+import com.dicoding.aetherized.aetherizedstoryappview.di.Injection
 import com.dicoding.aetherized.aetherizedstoryappview.model.story.Story
+import com.dicoding.aetherized.aetherizedstoryappview.model.user.LoginResult
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.MyApplication
+import com.dicoding.aetherized.aetherizedstoryappview.util.helper.ViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.dicoding.aetherized.aetherizedstoryappview.databinding.ActivityMapsBinding
-import com.google.android.gms.location.FusedLocationProviderClient
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+
     private lateinit var binding: ActivityMapsBinding
+    private val preferenceDataStore by lazy { (application as MyApplication).customPreference }
+
+    private val storyRepository: StoryRepository by lazy {
+        val loginResult = LoginResult()
+        if (loginResult != null) {
+            Injection().provideRepository(this, loginResult)
+        } else {
+            throw IllegalStateException("LoginResult is not available.")
+        }
+    }
+
+    private val viewModelFactory by lazy { ViewModelFactory(preferenceDataStore, storyRepository) }
+    private val viewModel by viewModels<MapsViewModel> { viewModelFactory }
 
 
-    private var storyList: ArrayList<Story> = ArrayList()
+
+    private var storyList: List<Story> = emptyList()
     override fun onCreate(savedInstanceState: Bundle?) {
 
         Log.d("MapsActivityFun", "onCreate")
@@ -28,14 +48,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (intent != null) {
-            Log.d("MapsActivity", "Intent is NOT null")
-            @Suppress("DEPRECATION")
-            storyList = (intent.getSerializableExtra("storyList") as? ArrayList<Story>)!!
-            Log.d("MapsActivity", "Intent is NOT null ${storyList.size}")
-        } else {
-            Log.d("MapsActivity", "Intent is null ${storyList.size}")
-        }
+        storyList = viewModel.getLocalStoryList()
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -63,6 +76,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         } else {
             Log.d("MapsActivityMarker", "storyList is Empty")
         }
-
     }
+
+
 }

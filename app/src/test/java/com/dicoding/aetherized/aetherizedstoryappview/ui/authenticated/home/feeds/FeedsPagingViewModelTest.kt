@@ -69,7 +69,7 @@ class FeedsPagingViewModelTest{
         expectedStory.value = data
         Mockito.`when`(storyRepository.getAllStories(true)).thenReturn(expectedStory)
         val viewModel = FeedsPagingViewModel(storyRepository)
-        val actualStory: PagingData<Story> = viewModel.getStories(true).getOrAwaitValue()
+        val actualStory: PagingData<Story> = viewModel.getAllStories(true).getOrAwaitValue()
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryListAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,
